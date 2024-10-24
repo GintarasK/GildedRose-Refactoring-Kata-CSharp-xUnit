@@ -14,11 +14,11 @@ namespace GildedRoseKata;
 internal static class Startup
 {
     public static IServiceCollection AddServices(
-        this IServiceCollection services,
-        HostBuilderContext hostContext)
+        this IServiceCollection services)
     {
         services
-            .AddScoped<IConsoleService, ConsoleService>();
+            .AddScoped<IConsoleService, ConsoleService>()
+            .AddScoped<IAgingService, AgingService>();
 
         return services;
     }

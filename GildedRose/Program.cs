@@ -1,5 +1,7 @@
 ﻿using System;
 
+using GildedRoseKata.Services;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -30,6 +32,7 @@ public static class Program
             .ConfigureServices((hostContext, services) =>
             {
                 services.AddSingleton<Application>()
-                .AddServices(hostContext);
+                .AddSingleton<IItemObserver>(new ItemObserver(DataProvider.Items))
+                .AddServices();
             });
 }
