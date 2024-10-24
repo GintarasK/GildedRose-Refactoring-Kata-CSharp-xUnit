@@ -42,6 +42,7 @@ internal class ProcessingService(
         if (!int.TryParse(dayArgument, out int days))
         {
             logger.LogInformation("DayArgument: '{DayArgument}' was not parsed into days.", dayArgument);
+            return 0;
         }
 
         return days;

@@ -25,6 +25,7 @@
   
   <ItemGroup>
     <InternalsVisibleTo Include="GildedRoseTests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />    
   </ItemGroup>
 
 </Project>
