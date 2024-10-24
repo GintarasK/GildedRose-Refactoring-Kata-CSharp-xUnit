@@ -4,7 +4,7 @@ namespace GildedRoseKata.Models;
 
 public sealed class AgedBrie : StandardItem
 {
-    public override void AgeSingleDay()
+    protected override void AgeSingleDayInternal()
     {
         SellIn--;
 

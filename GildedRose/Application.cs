@@ -11,7 +11,7 @@ internal class Application(
     IProcessingService processingService,
     ILogger<Application> logger)
 {
-    private const int DefaultInitialDaysValue = 0;
+    private const int DefaultInitialDaysValue = 1;
 
     public void Process()
     {

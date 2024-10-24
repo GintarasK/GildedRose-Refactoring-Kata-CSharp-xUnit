@@ -1,4 +1,4 @@
-﻿namespace GildedRoseKata.StringExtensions;
+﻿namespace GildedRoseKata.Extensions;
 
 internal static class StringExtensions
 {

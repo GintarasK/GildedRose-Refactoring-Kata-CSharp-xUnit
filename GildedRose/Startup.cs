@@ -32,7 +32,9 @@ internal static class Startup
             .GetSection(nameof(LoggingSettings))
             .Get<LoggingSettings>();
 
-        if (loggingSettings == null)
+        if (loggingSettings != null
+            && loggingSettings?.LogFilePath != null
+            && loggingSettings?.FileSizeLimitBytes != null)
         {
             var loggerConfiguration = new LoggerConfiguration();
 
@@ -44,7 +46,8 @@ internal static class Startup
                 .WriteTo.File(
                     rollOnFileSizeLimit: true,
                     path: loggingSettings.LogFilePath,
-                    fileSizeLimitBytes: loggingSettings.FileSizeLimitBytes);
+                    fileSizeLimitBytes: loggingSettings.FileSizeLimitBytes,
+                    restrictedToMinimumLevel: LogEventLevel.Verbose);
 
             Log.Logger = loggerConfiguration.CreateLogger();
         }

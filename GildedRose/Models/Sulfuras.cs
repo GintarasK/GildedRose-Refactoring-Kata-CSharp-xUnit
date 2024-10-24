@@ -9,7 +9,9 @@ public sealed class Sulfuras : StandardItem
         Quality = CommonSettings.Quality.Legendary;
     }
 
-    public override void AgeSingleDay()
+    protected override int MaxQuality { get; } = CommonSettings.Quality.Legendary;
+
+    protected override void AgeSingleDayInternal()
     {
         SellIn--;
 

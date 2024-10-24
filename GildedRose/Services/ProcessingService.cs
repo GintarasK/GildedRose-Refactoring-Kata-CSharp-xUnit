@@ -8,7 +8,6 @@ internal class ProcessingService(
     ILogger<ProcessingService> logger)
     : IProcessingService
 {
-
     public int ProcessAndGetLastDayToRecorded(int lastDayRecorded, string daysString)
     {
         var lastDayToRecord = CalculateLastDayToRecord(lastDayRecorded, daysString);

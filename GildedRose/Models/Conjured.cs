@@ -4,7 +4,7 @@ namespace GildedRoseKata.Models;
 
 public sealed class Conjured : StandardItem
 {
-    public override void AgeSingleDay()
+    protected override void AgeSingleDayInternal()
     {
         SellIn--;
 

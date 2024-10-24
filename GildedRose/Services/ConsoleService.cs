@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Text;
 
-using GildedRoseKata.StringExtensions;
+using GildedRoseKata.Extensions;
+
+using Microsoft.Extensions.Logging;
 
 namespace GildedRoseKata.Services;
 
 internal class ConsoleService(
-    IItemObserver itemObserver)
+    IItemObserver itemObserver,
+    ILogger<ConsoleService> logger)
     : IConsoleService
 {
     public void DisplayItems(int day)
@@ -23,7 +26,7 @@ internal class ConsoleService(
             dayInformation.AppendLine(itemInfo);
         }
 
-        Console.Write(dayInformation.ToString());
+        logger.LogInformation(dayInformation.ToString());
     }
 
     public (bool Escape, string Line) ReadLineWithEscape()
