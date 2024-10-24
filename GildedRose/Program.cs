@@ -1,50 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
 
-using GildedRoseKata.Models;
-using GildedRoseKata.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace GildedRoseKata;
 
-public class Program
+public static class Program
 {
     public static void Main(string[] args)
     {
-        Console.WriteLine("OMGHAI!");
+        var host = CreateHostBuilder(args).Build();
 
-        IList<Item> items = DataProvider.Items;
+        using var scope = host.Services.CreateScope();
 
-        var app = new GildedRose(items);
+        var serviceProvider = scope.ServiceProvider;
 
-        int days = GetDaysArgument(args);
-
-        for (var i = 0; i < days; i++)
+        try
         {
-            Console.WriteLine("-------- day " + i + " --------");
-            Console.WriteLine("name, sellIn, quality");
-            for (var j = 0; j < items.Count; j++)
-            {
-                Console.WriteLine(items[j].Name + ", " + items[j].SellIn + ", " + items[j].Quality);
-            }
-
-            Console.WriteLine();
-            app.UpdateQuality();
+            serviceProvider.GetRequiredService<Application>().Process();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
         }
     }
 
-    private static int GetDaysArgument(string[] args)
-    {
-        int days = 2;
-        if (args.Length > 0)
-        {
-            var dayArgument = args[0];
-
-            if (!int.TryParse(args[0], out days))
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureServices((hostContext, services) =>
             {
-                Console.WriteLine($"DayArgument: '{dayArgument}' was not parsed into days.");
-            }
-        }
-
-        return days;
-    }
+                services.AddSingleton<Application>()
+                .AddServices(hostContext);
+            });
 }
