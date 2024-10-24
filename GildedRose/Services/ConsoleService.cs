@@ -1,33 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
-using GildedRoseKata.Models;
 using GildedRoseKata.StringExtensions;
 
 namespace GildedRoseKata.Services;
 
-internal class ConsoleService : IConsoleService
+internal class ConsoleService(
+    IItemObserver itemObserver)
+    : IConsoleService
 {
-    public void DisplayItems(IList<Item> items, int days, int startDay = 0)
+    public void DisplayItems(int day)
     {
-        var app = new GildedRose(items);
+        var items = itemObserver.GetItems();
 
-        for (var i = startDay; i < days; i++)
+        var dayInformation = new StringBuilder();
+        dayInformation.AppendLine();
+        dayInformation.AppendLine($"--------day {day} --------".PadCenter(72));
+        dayInformation.AppendLine($"{"Name",-50}|{"SellIn",-10}|{"Quality",-10}");
+        for (var j = 0; j < items.Count; j++)
         {
-            var dayInformation = new StringBuilder();
-            dayInformation.AppendLine();
-            dayInformation.AppendLine($"--------day {i} --------".PadCenter(72));
-            dayInformation.AppendLine($"{"Name",-50}|{"SellIn",-10}|{"Quality",-10}");
-            for (var j = 0; j < items.Count; j++)
-            {
-                var itemInfo = $"{items[j].Name,-50}|{items[j].SellIn,-10}|{items[j].Quality,-10}";
-                dayInformation.AppendLine(itemInfo);
-            }
-
-            Console.Write(dayInformation.ToString());
-            app.UpdateQuality();
+            var itemInfo = $"{items[j].Name,-50}|{items[j].SellIn,-10}|{items[j].Quality,-10}";
+            dayInformation.AppendLine(itemInfo);
         }
+
+        Console.Write(dayInformation.ToString());
     }
 
     public (bool Escape, string Line) ReadLineWithEscape()

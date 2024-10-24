@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 
-using GildedRoseKata.Models;
 using GildedRoseKata.Services;
 
 using Microsoft.Extensions.Logging;
@@ -10,15 +8,16 @@ namespace GildedRoseKata;
 
 internal class Application(
     IConsoleService consoleService,
+    IAgingService agingService,
     ILogger<Application> logger)
 {
+    private const int DefaultInitialDaysValue = 0;
+
     public void Process()
     {
         logger.LogInformation("OMGHAI!");
 
-        IList<Item> items = DataProvider.Items;
-
-        var lastDay = 0;
+        var lastDayRecorded = DefaultInitialDaysValue;
 
         do
         {
@@ -30,20 +29,30 @@ internal class Application(
                 break;
             }
 
-            lastDay = DisplayItemsAgingInDays(items, lastDay, daysString);
+            var lastDayToRecord = CalculateLastDayToRecord(lastDayRecorded, daysString);
+
+            ProcessItems(lastDayToRecord, lastDayRecorded);
+
+            lastDayRecorded = lastDayToRecord;
 
             logger.LogInformation("Please press Any Key to continue. (ESC to cancel): ");
         }
         while (Console.ReadKey(true).Key != ConsoleKey.Escape);
     }
 
-    private int DisplayItemsAgingInDays(IList<Item> items, int lastRecordedDay, string daysString)
+    private void ProcessItems(int days, int startDay = 0)
+    {
+        for (var i = startDay; i < days; i++)
+        {
+            agingService.AgeItemsSingleDay();
+            consoleService.DisplayItems(day: i);
+        }
+    }
+
+    private int CalculateLastDayToRecord(int lastRecordedDay, string daysString)
     {
         var daysToPass = GetDaysArgument(daysString);
-
         var lastDayToRecord = lastRecordedDay + daysToPass;
-        consoleService.DisplayItems(items, lastDayToRecord, lastRecordedDay);
-
         return lastDayToRecord;
     }
 
