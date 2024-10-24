@@ -8,9 +8,9 @@ public sealed class BackstagePass : StandardItem
     private readonly List<Strategy> agingStrategies =
     [
         new((sellIn) => sellIn < 0, (quality) => 0),
-        new((sellIn) => sellIn <= 10 && sellIn >= 5, (quality) => quality + 2),
-        new((sellIn) => sellIn <= 5 && sellIn >= 0, (quality) => quality + 3),
-        new((sellIn) => sellIn >= 10, (quality) => quality + 1),
+        new((sellIn) => sellIn <= 10 && sellIn > 5, (quality) => quality + 2),
+        new((sellIn) => sellIn <= 5 && sellIn > 0, (quality) => quality + 3),
+        new((sellIn) => sellIn > 10, (quality) => quality + 1),
     ];
 
     protected override void AgeSingleDayInternal()

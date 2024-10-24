@@ -15,7 +15,7 @@ public class StandardItem : Item
             Quality = CommonSettings.Quality.Min;
         }
 
-        if (Quality > CommonSettings.Quality.Max)
+        if (Quality > MaxQuality)
         {
             Quality = MaxQuality;
         }
