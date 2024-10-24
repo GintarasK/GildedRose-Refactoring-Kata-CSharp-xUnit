@@ -1,4 +1,6 @@
-﻿using GildedRoseKata.Models;
+﻿using System;
+
+using GildedRoseKata.Models;
 
 namespace GildedRoseKata.Services;
 
@@ -10,7 +12,17 @@ internal class AgingService(IItemObserver itemObserver) : IAgingService
 
         foreach (var item in items)
         {
-            (item as StandardItem).AgeSingleDay();
+            AgeItem(item);
         }
+    }
+
+    private static void AgeItem(Item item)
+    {
+        if (item is not StandardItem)
+        {
+            throw new NotImplementedException($"{item?.GetType().ToString()} is not implemented.");
+        }
+
+        (item as StandardItem).AgeSingleDay();
     }
 }

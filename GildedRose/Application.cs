@@ -8,7 +8,7 @@ namespace GildedRoseKata;
 
 internal class Application(
     IConsoleService consoleService,
-    IAgingService agingService,
+    IProcessingService processingService,
     ILogger<Application> logger)
 {
     private const int DefaultInitialDaysValue = 0;
@@ -29,40 +29,8 @@ internal class Application(
                 break;
             }
 
-            var lastDayToRecord = CalculateLastDayToRecord(lastDayRecorded, daysString);
-
-            ProcessItems(lastDayToRecord, lastDayRecorded);
-
-            lastDayRecorded = lastDayToRecord;
-
-            logger.LogInformation("Please press Any Key to continue. (ESC to cancel): ");
+            lastDayRecorded = processingService.ProcessAndGetLastDayToRecorded(lastDayRecorded, daysString);
         }
         while (Console.ReadKey(true).Key != ConsoleKey.Escape);
-    }
-
-    private void ProcessItems(int days, int startDay = 0)
-    {
-        for (var i = startDay; i < days; i++)
-        {
-            agingService.AgeItemsSingleDay();
-            consoleService.DisplayItems(day: i);
-        }
-    }
-
-    private int CalculateLastDayToRecord(int lastRecordedDay, string daysString)
-    {
-        var daysToPass = GetDaysArgument(daysString);
-        var lastDayToRecord = lastRecordedDay + daysToPass;
-        return lastDayToRecord;
-    }
-
-    private int GetDaysArgument(string dayArgument)
-    {
-        if (!int.TryParse(dayArgument, out int days))
-        {
-            logger.LogInformation($"DayArgument: '{dayArgument}' was not parsed into days.");
-        }
-
-        return days;
     }
 }

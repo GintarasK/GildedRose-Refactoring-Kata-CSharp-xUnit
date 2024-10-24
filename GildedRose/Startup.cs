@@ -18,7 +18,8 @@ internal static class Startup
     {
         services
             .AddScoped<IConsoleService, ConsoleService>()
-            .AddScoped<IAgingService, AgingService>();
+            .AddScoped<IAgingService, AgingService>()
+            .AddScoped<IProcessingService, ProcessingService>();
 
         return services;
     }
