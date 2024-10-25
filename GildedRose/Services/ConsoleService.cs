@@ -5,6 +5,7 @@ using GildedRoseKata.Services.Wrappers;
 
 namespace GildedRoseKata.Services;
 
+// NOTE: If there is a need to use UI/Web API remove ConsoleService and Create Views/Controllers.
 internal class ConsoleService(IConsoleWrapper consoleWrapper)
     : IConsoleService
 {
