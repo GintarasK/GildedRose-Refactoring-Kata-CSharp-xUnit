@@ -11,3 +11,5 @@ dotnet_diagnostic.SA1200.severity = none
 
 # SA1633: File should have header
 dotnet_diagnostic.SA1633.severity = none
+
+dotnet_separate_import_directive_groups = true

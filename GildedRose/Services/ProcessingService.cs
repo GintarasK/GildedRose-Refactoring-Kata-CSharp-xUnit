@@ -3,7 +3,7 @@
 namespace GildedRoseKata.Services;
 
 internal class ProcessingService(
-    IConsoleService consoleService,
+    IItemInformationService itemInformationService,
     IAgingService agingService,
     ILogger<ProcessingService> logger)
     : IProcessingService
@@ -26,7 +26,8 @@ internal class ProcessingService(
         for (var i = startDay; i < days; i++)
         {
             agingService.AgeItemsSingleDay();
-            consoleService.DisplayItems(day: i);
+            var itemInformation = itemInformationService.GetInformationOnItems(day: i);
+            logger.LogInformation(itemInformation);
         }
     }
 

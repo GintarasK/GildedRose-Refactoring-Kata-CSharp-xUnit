@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GildedRoseKata.Models;
 
@@ -7,9 +8,9 @@ public sealed class BackstagePass : StandardItem
 {
     private readonly List<Strategy> agingStrategies =
     [
-        new((sellIn) => sellIn < 0, (quality) => 0),
-        new((sellIn) => sellIn <= 10 && sellIn > 5, (quality) => quality + 2),
-        new((sellIn) => sellIn <= 5 && sellIn > 0, (quality) => quality + 3),
+        new((sellIn) => sellIn < 0, (_) => 0),
+        new((sellIn) => sellIn is <= 10 and > 5, (quality) => quality + 2),
+        new((sellIn) => sellIn is <= 5 and > 0, (quality) => quality + 3),
         new((sellIn) => sellIn > 10, (quality) => quality + 1),
     ];
 
@@ -22,12 +23,9 @@ public sealed class BackstagePass : StandardItem
 
     private void ExecuteAgingStrategy()
     {
-        foreach (var strategy in agingStrategies)
+        foreach (var strategy in agingStrategies.Where(strategy => strategy.Condition(SellIn)))
         {
-            if (strategy.Condition(SellIn))
-            {
-                Quality = strategy.Action(Quality);
-            }
+            Quality = strategy.Action(Quality);
         }
     }
 

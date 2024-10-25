@@ -12,7 +12,7 @@ namespace GildedRoseTests.Services;
 
 public class ProcessingServiceTests
 {
-    private readonly Mock<IConsoleService> consoleServiceMock = new();
+    private readonly Mock<IItemInformationService> itemInformationServiceMock = new();
     private readonly Mock<IAgingService> agingServiceMock = new();
 
     [Theory]
@@ -29,9 +29,9 @@ public class ProcessingServiceTests
         agingServiceMock
             .Setup(q => q.AgeItemsSingleDay());
 
-        consoleServiceMock
+        itemInformationServiceMock
             .Setup(
-                q => q.DisplayItems(
+                q => q.GetInformationOnItems(
                     It.Is<int>(w => w >= lastDayRecorded && w < expectedLastDayRecorded)));
 
         var sut = GetSut();
@@ -48,12 +48,12 @@ public class ProcessingServiceTests
                 Times.Exactly(daysToAge));
         agingServiceMock.VerifyNoOtherCalls();
 
-        consoleServiceMock
+        itemInformationServiceMock
             .Verify(
-                q => q.DisplayItems(
+                q => q.GetInformationOnItems(
                     It.Is<int>(w => w >= lastDayRecorded && w < expectedLastDayRecorded)),
                 Times.Exactly(daysToAge));
-        consoleServiceMock.VerifyNoOtherCalls();
+        itemInformationServiceMock.VerifyNoOtherCalls();
     }
 
     [Fact]
@@ -67,9 +67,9 @@ public class ProcessingServiceTests
         agingServiceMock
             .Setup(q => q.AgeItemsSingleDay());
 
-        consoleServiceMock
+        itemInformationServiceMock
             .Setup(
-                q => q.DisplayItems(0));
+                q => q.GetInformationOnItems(0));
 
         var sut = GetSut();
 
@@ -84,17 +84,17 @@ public class ProcessingServiceTests
                 q => q.AgeItemsSingleDay(),
                 Times.Never);
 
-        consoleServiceMock
+        itemInformationServiceMock
             .Verify(
-                q => q.DisplayItems(0),
+                q => q.GetInformationOnItems(0),
                 Times.Exactly(0));
 
-        consoleServiceMock.VerifyNoOtherCalls();
+        itemInformationServiceMock.VerifyNoOtherCalls();
     }
 
     private ProcessingService GetSut()
         => new(
-            consoleServiceMock.Object,
+            itemInformationServiceMock.Object,
             agingServiceMock.Object,
             new NullLogger<ProcessingService>());
 }
