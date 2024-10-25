@@ -1,4 +1,5 @@
 ﻿using GildedRoseKata.Services;
+using GildedRoseKata.Services.Wrappers;
 using GildedRoseKata.Settings;
 
 using Microsoft.Extensions.Configuration;
@@ -18,8 +19,10 @@ internal static class Startup
     {
         services
             .AddScoped<IConsoleService, ConsoleService>()
+            .AddScoped<IConsoleWrapper, ConsoleWrapper>()
             .AddScoped<IAgingService, AgingService>()
-            .AddScoped<IProcessingService, ProcessingService>();
+            .AddScoped<IProcessingService, ProcessingService>()
+            .AddScoped<IItemInformationService, ItemInformationService>();
 
         return services;
     }
@@ -32,25 +35,25 @@ internal static class Startup
             .GetSection(nameof(LoggingSettings))
             .Get<LoggingSettings>();
 
-        if (loggingSettings != null
-            && loggingSettings?.LogFilePath != null
-            && loggingSettings?.FileSizeLimitBytes != null)
+        if (loggingSettings?.LogFilePath == null)
         {
-            var loggerConfiguration = new LoggerConfiguration();
-
-            loggerConfiguration
-                .Enrich.FromLogContext()
-                .WriteTo.Console(
-                    LogEventLevel.Information,
-                    theme: SystemConsoleTheme.Literate)
-                .WriteTo.File(
-                    rollOnFileSizeLimit: true,
-                    path: loggingSettings.LogFilePath,
-                    fileSizeLimitBytes: loggingSettings.FileSizeLimitBytes,
-                    restrictedToMinimumLevel: LogEventLevel.Verbose);
-
-            Log.Logger = loggerConfiguration.CreateLogger();
+            return services;
         }
+
+        var loggerConfiguration = new LoggerConfiguration();
+
+        loggerConfiguration
+            .Enrich.FromLogContext()
+            .WriteTo.Console(
+                LogEventLevel.Information,
+                theme: SystemConsoleTheme.Literate)
+            .WriteTo.File(
+                rollOnFileSizeLimit: true,
+                path: loggingSettings.LogFilePath,
+                fileSizeLimitBytes: loggingSettings.FileSizeLimitBytes,
+                restrictedToMinimumLevel: LogEventLevel.Verbose);
+
+        Log.Logger = loggerConfiguration.CreateLogger();
 
         return services;
     }

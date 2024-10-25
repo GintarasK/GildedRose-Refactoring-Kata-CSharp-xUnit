@@ -32,10 +32,10 @@ public static class Program
         }
     }
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
+    private static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .UseSerilog()
-            .ConfigureAppConfiguration((hostContext, builder) =>
+            .ConfigureAppConfiguration((_, builder) =>
             {
                 builder
                     .SetBasePath(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
