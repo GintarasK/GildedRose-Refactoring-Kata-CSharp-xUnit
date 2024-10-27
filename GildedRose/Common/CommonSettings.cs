@@ -2,7 +2,7 @@
 
 internal static class CommonSettings
 {
-    public class Quality
+    public static class Quality
     {
         public const int Max = 50;
         public const int Min = 0;

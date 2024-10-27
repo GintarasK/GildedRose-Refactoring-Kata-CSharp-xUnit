@@ -25,14 +25,16 @@ public class StandardItem : Item
     {
         SellIn--;
 
-        if (Quality > CommonSettings.Quality.Min)
+        if (Quality <= CommonSettings.Quality.Min)
+        {
+            return;
+        }
+
+        Quality--;
+
+        if (SellIn < 0 && Quality > CommonSettings.Quality.Min)
         {
             Quality--;
-
-            if (SellIn < 0 && Quality > CommonSettings.Quality.Min)
-            {
-                Quality--;
-            }
         }
     }
 }

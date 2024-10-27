@@ -2,7 +2,7 @@
 
 using GildedRoseKata.Models;
 
-namespace GildedRoseKata.Services;
+namespace GildedRoseKata;
 
 internal static class DataProvider
 {

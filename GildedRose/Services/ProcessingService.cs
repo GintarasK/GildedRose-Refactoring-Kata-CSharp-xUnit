@@ -40,12 +40,12 @@ internal class ProcessingService(
 
     private int GetDaysArgument(string dayArgument)
     {
-        if (!int.TryParse(dayArgument, out int days))
+        if (int.TryParse(dayArgument, out var days))
         {
-            logger.LogInformation("DayArgument: '{DayArgument}' was not parsed into days.", dayArgument);
-            return 0;
+            return days;
         }
 
-        return days;
+        logger.LogInformation("DayArgument: '{DayArgument}' was not parsed into days.", dayArgument);
+        return 0;
     }
 }

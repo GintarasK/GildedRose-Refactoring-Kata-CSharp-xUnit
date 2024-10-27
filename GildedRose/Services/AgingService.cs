@@ -18,11 +18,11 @@ internal class AgingService(IItemObserver itemObserver) : IAgingService
 
     private static void AgeItem(Item item)
     {
-        if (item is not StandardItem)
+        if (item is not StandardItem standardItem)
         {
-            throw new NotImplementedException($"{item?.GetType().ToString()} is not implemented.");
+            throw new NotImplementedException($"{item?.GetType()} is not implemented.");
         }
 
-        (item as StandardItem).AgeSingleDay();
+        standardItem.AgeSingleDay();
     }
 }

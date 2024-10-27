@@ -59,7 +59,7 @@ public class AgingServiceTests
         // Assert
         exception.Should().NotBeNull();
         exception.Should().BeOfType<NotImplementedException>();
-        exception.Message.Should().Contain("not implemented");
+        exception!.Message.Should().Contain("not implemented");
 
         itemObserverMock.Verify();
     }

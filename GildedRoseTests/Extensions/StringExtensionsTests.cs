@@ -12,8 +12,8 @@ public class StringExtensionsTests
     public void PadCenter_When_StringLengthIsMoreThanLengthVariable_Should_ReturnSameString()
     {
         // Arrange
-        var str = "1234567890";
-        var length = 1;
+        const string str = "1234567890";
+        const int length = 1;
 
         // Act
         var resultStr = StringExtensions.PadCenter(str, length);
@@ -26,8 +26,8 @@ public class StringExtensionsTests
     public void PadCenter_When_StringLengthIsLessThanLengthVariable_Should_ReturnSameString()
     {
         // Arrange
-        var str = "1234567890";
-        var length = 20;
+        const string str = "1234567890";
+        const int length = 20;
 
         // Act
         var resultStr = StringExtensions.PadCenter(str, length);

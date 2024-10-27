@@ -7,6 +7,7 @@ using GildedRoseKata.Services;
 
 using Xunit;
 
+// ReSharper disable ExpressionIsAlwaysNull
 namespace GildedRoseTests.Services;
 
 public class ItemObserverTests

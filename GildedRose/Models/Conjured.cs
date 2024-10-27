@@ -8,14 +8,16 @@ public sealed class Conjured : StandardItem
     {
         SellIn--;
 
-        if (Quality > CommonSettings.Quality.Min)
+        if (Quality <= CommonSettings.Quality.Min)
+        {
+            return;
+        }
+
+        Quality -= 2;
+
+        if (SellIn < 0 && Quality > CommonSettings.Quality.Min)
         {
             Quality -= 2;
-
-            if (SellIn < 0 && Quality > CommonSettings.Quality.Min)
-            {
-                Quality -= 2;
-            }
         }
     }
 }
